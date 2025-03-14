@@ -9,7 +9,10 @@ import br.dev.phenrique.airports.entities.Airport;
 import br.dev.phenrique.airports.repositories.AirportRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
@@ -46,5 +49,14 @@ public class AirportService {
                 .map(x -> new AirportMinDTO(x)).toList();
 
     return resultDTO;
+    }
+     /**
+     * Retorna DTO Airport por iataCode
+     * @param iataCode
+     * @return
+     */
+    public Airport findByIataCode(String iataCode) {
+        Airport result = airportRepository.findByIataCode(iataCode);
+        return result;
     }
 }
