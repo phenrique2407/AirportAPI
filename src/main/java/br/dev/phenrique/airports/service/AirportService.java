@@ -4,6 +4,7 @@
  */
 package br.dev.phenrique.airports.service;
 
+import br.dev.phenrique.airports.DTO.AirportMinDTO;
 import br.dev.phenrique.airports.entities.Airport;
 import br.dev.phenrique.airports.repositories.AirportRepository;
 import java.util.List;
@@ -30,5 +31,20 @@ public class AirportService {
     public List<Airport> findByCity(String city){
         List<Airport> result = airportRepository.findByCityIgnoreCase(city);
         return result;
+    }
+    
+     /**
+     * Retorna DTO AirportMinDTO filtrado por country (país).
+     *
+     * @param country
+     * @return
+     */
+    public List<AirportMinDTO> findByCountry(String country) {
+        List<Airport> resultAirport = airportRepository.findByCountryIgnoreCase(country);
+
+        List<AirportMinDTO> resultDTO = resultAirport.stream()
+                .map(x -> new AirportMinDTO(x)).toList();
+
+    return resultDTO;
     }
 }
