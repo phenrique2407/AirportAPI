@@ -6,13 +6,12 @@ package br.dev.phenrique.airports.service;
 
 import br.dev.phenrique.airports.DTO.AirportMinDTO;
 import br.dev.phenrique.airports.entities.Airport;
+import br.dev.phenrique.airports.DTO.AirportNearMeDTO;
+import br.dev.phenrique.airports.projections.AirportNearMeProjection;
 import br.dev.phenrique.airports.repositories.AirportRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
@@ -58,5 +57,22 @@ public class AirportService {
     public Airport findByIataCode(String iataCode) {
         Airport result = airportRepository.findByIataCode(iataCode);
         return result;
+    }
+    
+     /*
+     * Retorna DTO AirportNearMe
+     *
+     * @param latitude
+     * @param longitude
+     * @return
+     */
+    public List<AirportNearMeDTO> findNearMe(double latitude, double longitude) {
+        List<AirportNearMeProjection> resultNearAirports = airportRepository.findNearMe(latitude, longitude);
+
+        List<AirportNearMeDTO> resultDTO = resultNearAirports.stream()
+                .map(x -> new AirportNearMeDTO(x))
+                .toList();
+
+        return resultDTO;
     }
 }
